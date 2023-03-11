@@ -1,1 +1,1 @@
-# princeton-algorithms-part-i
+# Princeton Algorithms Part I
