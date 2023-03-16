@@ -15,15 +15,6 @@ public class Percolation {
             throw new IllegalArgumentException();
     }
 
-    // create union for grid edge sites
-    private void checkGridEdgeUnion(int row, int col) {
-        if (col == 1) {
-            gridUF.union(grid[row][col], grid[row][col + 1]);
-        } else if (col == size) {
-            gridUF.union(grid[row][col], grid[row][col - 1]);
-        }
-    }
-
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
         size = n;
@@ -38,15 +29,11 @@ public class Percolation {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 grid[i][j] = x;
-                if (i == 0) {
-                    gridUF.union(x, topVirtualSite);
-                } else if (i == n - 1) {
-                    gridUF.union(x, botVirtualSite);
-                }
                 x++;
             }
         }
-        state[topVirtualSite] = state[botVirtualSite] = true;
+        state[topVirtualSite] = true;
+        state[botVirtualSite] = true;
     }
 
     // opens the site (row, col) if it is not open already
@@ -56,6 +43,12 @@ public class Percolation {
         if (!state[grid[row - 1][col - 1]]) {
             state[grid[row - 1][col - 1]] = true;
             openSites++;
+
+            if (row == 1) {
+                gridUF.union(grid[row - 1][col - 1], topVirtualSite);
+            } else if (row == size) {
+                gridUF.union(grid[row - 1][col - 1], botVirtualSite);
+            }
 
             if (row != size && isOpen(row + 1, col)) {
                 gridUF.union(grid[row - 1][col - 1], grid[row][col - 1]);
@@ -99,6 +92,8 @@ public class Percolation {
     public static void main(String[] args) {
 //        Percolation myPercolation = new Percolation(5);
 //        myPercolation.open(1, 1);
+//        System.out.println(myPercolation.isFull(1, 1));
+//        System.out.println(myPercolation.isOpen(1, 1));
 //        myPercolation.open(1, 4);
 //        myPercolation.open(2, 1);
 //        myPercolation.open(2, 3);
@@ -112,8 +107,11 @@ public class Percolation {
 //        myPercolation.open(5, 4);
 //        System.out.println(myPercolation.numberOfOpenSites());
 //        System.out.println(myPercolation.isFull(2, 1));
+//        System.out.println(myPercolation.isOpen(2, 1));
 //        System.out.println(myPercolation.isFull(3, 1));
+//        System.out.println(myPercolation.isOpen(3, 1));
 //        System.out.println(myPercolation.isFull(3, 5));
+//        System.out.println(myPercolation.isOpen(3, 1));
 //        System.out.println(myPercolation.percolates());
     }
 }
