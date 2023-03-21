@@ -1,6 +1,6 @@
 /* *****************************************************************************
  *  Name: Kevin Chen
- *  Date: 20/03/2023
+ *  Date: 21/03/2023
  *  Description: Generic deque data type
  **************************************************************************** */
 
@@ -119,7 +119,7 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         System.out.println("Running unit tests...");
-        Deque<String> myQueue = new Deque<String>();
+        Deque<String> myQueue;
 
         System.out.println("Test 1");
         myQueue = new Deque<String>();
@@ -206,6 +206,18 @@ public class Deque<Item> implements Iterable<Item> {
         myQueue.removeLast();
         myQueue.showDeque();
         System.out.println(myQueue.size());
+
+        System.out.println("Test 11");
+        Deque<Integer> myNumQueue;
+        myNumQueue = new Deque<Integer>();
+        myNumQueue.addFirst(1);
+        myNumQueue.addLast(2);
+        myNumQueue.addFirst(3);
+        myNumQueue.removeFirst();
+        myNumQueue.removeLast();
+        myNumQueue.addFirst(4);
+        myNumQueue.showDeque();
+        System.out.println(myNumQueue.size());
     }
 
 }
