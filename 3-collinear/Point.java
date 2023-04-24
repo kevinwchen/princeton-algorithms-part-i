@@ -61,6 +61,7 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        if (that == null) throw new NullPointerException();
         if (this.x == that.x) {
             if (this.y == that.y) {
                 return Double.NEGATIVE_INFINITY;
@@ -91,6 +92,7 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        if (that == null) throw new NullPointerException();
         if (this.y < that.y) {
             return -1;
         }
@@ -112,6 +114,7 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         Comparator<Point> slopeComparator = new Comparator<Point>() {
             public int compare(Point p1, Point p2) {
+                if (p1 == null || p2 == null) throw new NullPointerException();
                 double slope1 = Point.this.slopeTo(p1);
                 double slope2 = Point.this.slopeTo(p2);
                 return Double.compare(slope1, slope2);
