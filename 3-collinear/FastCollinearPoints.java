@@ -1,8 +1,8 @@
 /* *****************************************************************************
  *  Name: Kevin
- *  Date: 24/03/2023
- *  Description: Examines 4 points at a time and checks if they are collinear
- *               using a faster method (than brute-force)
+ *  Date: 25/03/2023
+ *  Description: Examines 4 or more points at a time and checks if they are
+ *               collinear using a faster method (than brute-force)
  **************************************************************************** */
 
 import java.util.ArrayList;
@@ -41,19 +41,13 @@ public class FastCollinearPoints {
                 currentSlope = points[i].slopeTo(slopePoints[j]);
                 if (currentSlope == prevSlope) {
                     currentSegments++;
+                    if (j == points.length - 1 && currentSegments >= 3) {
+                        pointsGroup.add(slopePoints[j]);
+                        addLineSegment(pointsGroup, points, i);
+                    }
                 }
                 else {
-                    if (currentSegments >= 3) {
-                        pointsGroup.add(points[i]);
-                        pointsGroup.sort(Comparator.naturalOrder());
-                        if (points[i].compareTo(pointsGroup.get(0)) == 0) {
-                            LineSegment lineSegment = new LineSegment(pointsGroup.get(0),
-                                                                      pointsGroup.get(
-                                                                              pointsGroup.size()
-                                                                                      - 1));
-                            lineSegmentList.add(lineSegment);
-                        }
-                    }
+                    if (currentSegments >= 3) addLineSegment(pointsGroup, points, i);
                     currentSegments = 1;
                     pointsGroup.clear();
                 }
@@ -63,6 +57,21 @@ public class FastCollinearPoints {
             }
         }
 
+    }
+
+    private void addLineSegment(ArrayList<Point> pointsGroup, Point[] points, int i) {
+        // create line segment if at least three subsegments
+        pointsGroup.add(points[i]); // add comparison point
+        pointsGroup.sort(Comparator.naturalOrder()); // sort
+
+        // check if point is minimal point to avoid duplicates
+        if (points[i].compareTo(pointsGroup.get(0)) == 0) {
+            LineSegment lineSegment = new LineSegment(pointsGroup.get(0),
+                                                      pointsGroup.get(
+                                                              pointsGroup.size()
+                                                                      - 1));
+            lineSegmentList.add(lineSegment);
+        }
     }
 
     public int numberOfSegments() { // the number of line segments
@@ -86,7 +95,9 @@ public class FastCollinearPoints {
         Point point6 = new Point(2, 4);
         Point point7 = new Point(3, 6);
         Point point8 = new Point(1, 2);
-        Point[] myPoints = new Point[8];
+        Point point9 = new Point(1, 3);
+        Point point0 = new Point(1, 4);
+        Point[] myPoints = new Point[10];
         myPoints[0] = point1;
         myPoints[1] = point2;
         myPoints[2] = point3;
@@ -95,6 +106,8 @@ public class FastCollinearPoints {
         myPoints[5] = point6;
         myPoints[6] = point7;
         myPoints[7] = point8;
+        myPoints[8] = point9;
+        myPoints[9] = point0;
 
         FastCollinearPoints fast = new FastCollinearPoints(myPoints);
         System.out.println(fast.numberOfSegments());
