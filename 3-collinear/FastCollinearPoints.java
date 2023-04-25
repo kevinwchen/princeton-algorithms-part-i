@@ -46,21 +46,18 @@ public class FastCollinearPoints {
                     if (currentSegments >= 3) {
                         pointsGroup.add(points[i]);
                         pointsGroup.sort(Comparator.naturalOrder());
-                        LineSegment lineSegment = new LineSegment(pointsGroup.get(0),
-                                                                  pointsGroup.get(
-                                                                          pointsGroup.size() - 1));
-                        System.out.println(lineSegment.toString());
-                        lineSegmentList.add(lineSegment);
+                        if (points[i].compareTo(pointsGroup.get(0)) == 0) {
+                            LineSegment lineSegment = new LineSegment(pointsGroup.get(0),
+                                                                      pointsGroup.get(
+                                                                              pointsGroup.size()
+                                                                                      - 1));
+                            lineSegmentList.add(lineSegment);
+                        }
                     }
                     currentSegments = 1;
                     pointsGroup.clear();
                 }
                 pointsGroup.add(slopePoints[j]);
-
-                for (int x = 0; x < pointsGroup.size(); x++) {
-                    System.out.print(pointsGroup.get(x));
-                }
-                System.out.println();
                 prevSlope = currentSlope;
                 j++;
             }
